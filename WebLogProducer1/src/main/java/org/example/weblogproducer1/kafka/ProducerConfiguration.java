@@ -20,12 +20,15 @@ public class ProducerConfiguration {
     @Value("${application.kafka.topic}")
     private String topic;
 
+    @Value("${application.kafka.partitions}")
+    private Long partitions;
+
     @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapAddress;
 
     @Bean
     public NewTopic newTopic() {
-        return new NewTopic(topic, 3, (short) 1);
+        return new NewTopic(topic, Math.toIntExact(partitions), (short) 1);
     }
 
     @Bean
